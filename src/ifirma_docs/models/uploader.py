@@ -5,10 +5,10 @@ import time
 from ifirma_docs.modules import settings, health
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
-# from selenium.webdriver.support import expected_conditions as EC
 
 
 class IFirmaUploader():
+    """Class using browser to maintain IFirma connections"""
     def __init__(self, username, password) -> None:
         self._username = username
         self._password = password
@@ -17,7 +17,8 @@ class IFirmaUploader():
         self._chrome_options.add_argument('--ignore-ssl-errors=yes')
         self._chrome_options.add_argument('--ignore-certificate-errors')
 
-    def _upload_file_to_ifirma(self, file):
+    def _upload_file_to_ifirma(self, file: str):
+        """Uploads file to IFirma documents"""
         with webdriver.Remote(settings.webdriver.url,
                               options=self._chrome_options) as browser:
             browser.get(settings.ifirma.url)
@@ -45,6 +46,7 @@ class IFirmaUploader():
 
 
 class DirectoryWatcher():
+    """Watcher class to watch file apear in directory"""
     def __init__(self, ifirma_uploader: IFirmaUploader,
                  check_interval: int = 1) -> None:
         self._directory = settings.watched_dir
@@ -54,6 +56,7 @@ class DirectoryWatcher():
         self._watcher.start()
 
     def _get_files(self):
+        """Checks if file apear in directory and process it"""
         files = os.listdir(self._directory)
         if files:
             for file in files:
@@ -62,6 +65,7 @@ class DirectoryWatcher():
                 os.remove(filepath)
 
     def _watch(self):
+        """Main watcher loop"""
         while True:
             self._get_files()
             health.heartbeat()

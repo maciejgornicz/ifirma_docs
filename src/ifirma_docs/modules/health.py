@@ -8,7 +8,7 @@ class Health():
     """Singleton class.
     Instance of this class represents application health.
     If time since last heartbeat reach heartbeat_timeout (seconds),
-    instance will die.
+    instance will die (not destroy).
     """
     _instance = None
 
