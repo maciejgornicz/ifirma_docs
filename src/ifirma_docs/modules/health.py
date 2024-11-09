@@ -1,6 +1,7 @@
 import time
 from threading import Thread
-from ifirma_docs.modules import logger
+from .logger import logger
+from .settings import settings
 
 
 class Health():
@@ -13,10 +14,10 @@ class Health():
 
     def __new__(cls, *args, **kwargs):
         if not isinstance(cls._instance, cls):
-            cls._instance = object.__new__(cls, *args, **kwargs)
+            cls._instance = super(Health, cls).__new__(cls)
         return cls._instance
 
-    def __init__(self, heartbeat_timeot: int = 5) -> None:
+    def __init__(self, heartbeat_timeot: int = 60) -> None:
         self.life = Thread(target=self._start_heart)
         self._heartbeat_timeout = heartbeat_timeot
         self.life.start()
@@ -39,4 +40,4 @@ class Health():
         logger.error("Heart didn't beat. Dying")
 
 
-health = Health()
+health = Health(settings.heartbeat_timeout)

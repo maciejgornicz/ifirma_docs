@@ -16,7 +16,7 @@ class IFirmaUploader():
         self._chrome_options = webdriver.ChromeOptions()
         self._chrome_options.add_argument('--ignore-ssl-errors=yes')
         self._chrome_options.add_argument('--ignore-certificate-errors')
-    
+
     def _upload_file_to_ifirma(self, file):
         with webdriver.Remote(settings.webdriver.url,
                               options=self._chrome_options) as browser:

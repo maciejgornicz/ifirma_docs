@@ -21,7 +21,7 @@ class AppSettings(BaseSettings):
     webdriver: WebdriverSettings
 
     watched_dir: str = '/data'
-
+    heartbeat_timeout: int = 5
     model_config = SettingsConfigDict(env_nested_delimiter='__')
 
     @classmethod

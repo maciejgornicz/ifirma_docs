@@ -1,4 +1,4 @@
 ifirma:
     url: "https://ifirma.pl/app"
 
-# watched_dir: "./data"
+heartbeat_timeout: 60
