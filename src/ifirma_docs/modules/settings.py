@@ -1,6 +1,7 @@
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from pydantic import BaseModel, SecretStr
 import yaml
+from pathlib import Path
 
 
 class IFirmaSettings(BaseModel):
@@ -32,4 +33,5 @@ class AppSettings(BaseSettings):
         return cls(**config)
 
 
-settings = AppSettings.from_yaml('ifirma_docs/config/config.yaml')
+path = str(Path(__file__).resolve().parent.parent)
+settings = AppSettings.from_yaml(f'{path}/config/config.yaml')

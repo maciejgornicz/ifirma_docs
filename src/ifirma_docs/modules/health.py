@@ -2,6 +2,7 @@ import time
 from threading import Thread
 from .logger import logger
 from .settings import settings
+from typing import Union
 
 
 class Health():
@@ -17,7 +18,7 @@ class Health():
             cls._instance = super(Health, cls).__new__(cls)
         return cls._instance
 
-    def __init__(self, heartbeat_timeot: int = 60) -> None:
+    def __init__(self, heartbeat_timeot: Union[int, float] = 60) -> None:
         self.life = Thread(target=self._start_heart)
         self._heartbeat_timeout = heartbeat_timeot
         self.life.start()
