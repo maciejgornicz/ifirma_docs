@@ -1,27 +1,28 @@
-from pydantic_settings import BaseSettings
-from pydantic import BaseModel, Field
+from pydantic_settings import BaseSettings, SettingsConfigDict
+from pydantic import BaseModel, SecretStr
 import yaml
 
 
-class IfirmaSettings(BaseModel):
+class IFirmaSettings(BaseModel):
     """IFirma settings model"""
-    url: str = Field(alias='ifirma_url')
-    login: str = Field(alias='ifirma_login')
-    password: str = Field(alias='ifirma_password')
+    url: str
+    login: SecretStr
+    password: SecretStr
 
 
 class WebdriverSettings(BaseModel):
     """Webdriver settings model"""
-    host: str = Field(alias='webdriver_host')
-    port: str = Field(alias='webdriver_port')
+    url: str
 
 
-class Settings(BaseSettings):
+class AppSettings(BaseSettings):
     """Main settings model"""
-    ifirma: IfirmaSettings
+    ifirma: IFirmaSettings
     webdriver: WebdriverSettings
 
     watched_dir: str = '/data'
+
+    model_config = SettingsConfigDict(env_nested_delimiter='__')
 
     @classmethod
     def from_yaml(cls, file_path: str):
@@ -31,4 +32,4 @@ class Settings(BaseSettings):
         return cls(**config)
 
 
-settings = Settings.from_yaml('ifirma_docs/config/config.yaml')
+settings = AppSettings.from_yaml('ifirma_docs/config/config.yaml')
