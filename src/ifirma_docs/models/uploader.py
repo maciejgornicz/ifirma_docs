@@ -52,6 +52,7 @@ class DirectoryWatcher():
         self._directory = settings.watched_dir
         self._ifirma_uploader = ifirma_uploader
         self._check_interval = check_interval
+        self._running = True
         self._watcher = Thread(target=self._watch)
         self._watcher.start()
 
@@ -66,7 +67,10 @@ class DirectoryWatcher():
 
     def _watch(self):
         """Main watcher loop"""
-        while True:
+        while self._running:
             self._get_files()
             health.heartbeat()
             time.sleep(self._check_interval)
+
+    def stop(self):
+        self._running = False
