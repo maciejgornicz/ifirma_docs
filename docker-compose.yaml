@@ -17,17 +17,19 @@ services:
       - '20-21:20-21/tcp'
       - '40000-40009:40000-40009/tcp' # Only needed for passive mode
     volumes:
-      - './src/ifirma_docs/data:/home/user'
+      - 'data:/home/user'
 
   ifirma_docs:
+    profiles:
+      - all
     container_name: ifirma_doc
     build:
       context: .
       dockerfile: Dockerfile
     volumes:
-      - './src/ifirma_docs/data:/usr/src/app/ifirma_docs/data/'
+      - 'data:/data'
     env_file:
-      - ./.env/dev.env
+      - ./env/.env.test
     ports:
       - "8080:80"
     

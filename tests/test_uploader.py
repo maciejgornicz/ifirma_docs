@@ -30,9 +30,9 @@ def test_hearbeat(mocker, watcher):
 
 def test_upload_and_delete_finded_file(mocker, watcher):
     mocker.patch('ifirma_docs.models.uploader.IFirmaUploader._upload_file_to_ifirma')
-    with open(os.path.join('src', 'ifirma_docs', settings.watched_dir, 'tmp.file'), 'w') as file:
+    with open(os.path.join(settings.watched_dir, 'tmp.file'), 'w') as file:
         file.write("tests")
     sleep(watcher._check_interval+0.1)
     watcher.stop()
     watcher._ifirma_uploader._upload_file_to_ifirma.assert_called_once()
-    assert not os.path.isfile(f'{settings.watched_dir}/tmp.file')
+    assert not os.path.isfile(os.path.join(settings.watched_dir, 'tmp.file'))

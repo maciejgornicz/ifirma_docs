@@ -5,7 +5,6 @@ import time
 from ifirma_docs.modules import settings, health
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
-from pathlib import Path
 
 
 class IFirmaUploader():
@@ -59,7 +58,7 @@ class DirectoryWatcher():
 
     def _get_files(self):
         """Checks if file apear in directory and process it"""
-        path = os.path.join(Path(__file__).parent.parent, self._directory)
+        path = self._directory
         files = os.listdir(path)
         if files:
             for file in files:
