@@ -58,7 +58,7 @@ class DirectoryWatcher():
 
     def _get_files(self):
         """Checks if file apear in directory and process it"""
-        files = os.listdir(self._directory)
+        files = os.listdir(f'./ifirma_docs/{self._directory}')
         if files:
             for file in files:
                 filepath = f"{self._directory}/{file}"

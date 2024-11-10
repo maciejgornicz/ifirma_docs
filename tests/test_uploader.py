@@ -2,7 +2,7 @@
 from ifirma_docs.models.uploader import IFirmaUploader, DirectoryWatcher, health, settings
 from time import sleep
 import os
-import pytest
+import pytest  # type: ignore
 
 
 @pytest.fixture(autouse=True)

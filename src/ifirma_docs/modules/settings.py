@@ -21,7 +21,7 @@ class AppSettings(BaseSettings):
     ifirma: IFirmaSettings
     webdriver: WebdriverSettings
 
-    watched_dir: str = '/data'
+    watched_dir: str
     heartbeat_timeout: int = 5
     model_config = SettingsConfigDict(env_nested_delimiter='__')
 

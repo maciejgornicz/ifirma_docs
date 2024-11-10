@@ -19,5 +19,15 @@ services:
     volumes:
       - './data:/home/user'
 
+  ifirma_docs:
+    container_name: ifirma_doc
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - './ifirma_docs/data:/usr/src/app/data/'
+    env_file:
+      - ./.env/local.env
+    
 volumes:
   data:
