@@ -33,5 +33,5 @@ class AppSettings(BaseSettings):
         return cls(**config)
 
 
-path = str(Path(__file__).resolve().parent.parent)
+path = str(Path(__file__).parent.parent)
 settings = AppSettings.from_yaml(f'{path}/config/config.yaml')
