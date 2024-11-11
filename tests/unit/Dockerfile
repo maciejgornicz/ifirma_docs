@@ -5,7 +5,7 @@ WORKDIR /app
 
 RUN apt-get update && \
     apt-get dist-upgrade --yes && \
-    apt-get install git -y && \
+    apt-get install curl git -y && \
     python -m pip install -U pip
 
 COPY tests/unit/requirements.txt requirements.txt

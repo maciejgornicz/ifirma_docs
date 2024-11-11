@@ -1,4 +1,4 @@
 ifirma:
     url: "https://ifirma.pl/app"
 
-heartbeat_timeout: 60
+heartbeat_timeout: 15

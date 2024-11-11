@@ -18,7 +18,7 @@ services:
       - '20-21:20-21/tcp'
       - '40000-40009:40000-40009/tcp' # Only needed for passive mode
     volumes:
-      - 'data:/home/user'
+      - './data:/home/user'
 
   ifirma_docs:
     profiles:
@@ -28,11 +28,17 @@ services:
       context: .
       dockerfile: Dockerfile
     volumes:
-      - 'data:/data'
+      - './data:/data'
     env_file:
       - ./env/.env.test
     ports:
-      - "8080:80"
-    
+      - "8080:8080"
+    healthcheck:
+      test: ["CMD", "/app/healthcheck.sh"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+      start_period: 10s
+    restart: always
 volumes:
   data:

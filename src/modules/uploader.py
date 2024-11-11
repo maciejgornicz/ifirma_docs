@@ -34,7 +34,7 @@ class IFirmaUploader():
             browser.maximize_window()
 
             browser.find_element(By.ID, "loginButton").click()
-            time.sleep(10)
+            time.sleep(2)
             # browser.execute_script("just_close();")
             try:
                 browser.find_element(By.XPATH, "//button[contains(.,'Pomiń')]").click()

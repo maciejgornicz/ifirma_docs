@@ -27,7 +27,7 @@ class Health():
         self.life = Thread(target=self._start_heart)
         self._heartbeat_timeout = heartbeat_timeot
         self.life.start()
-        logger.info("Health initialized")
+        logger.info(f"Health initialized with {self._heartbeat_timeout} timeout")
 
     @property
     def alive(self) -> bool:
@@ -48,4 +48,5 @@ class Health():
         logger.error("Heart didn't beat. Dying")
 
 
+logger.info(f"Timeout: {settings.heartbeat_timeout}")
 health = Health(settings.heartbeat_timeout)
