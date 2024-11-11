@@ -2,6 +2,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 from pydantic import BaseModel, SecretStr
 import yaml
 from pathlib import Path
+from typing import Self
 
 
 class IFirmaSettings(BaseModel):
@@ -26,7 +27,7 @@ class AppSettings(BaseSettings):
     model_config = SettingsConfigDict(env_nested_delimiter='__')
 
     @classmethod
-    def from_yaml(cls, file_path: str):
+    def from_yaml(cls, file_path: str) -> Self:
         """Class method to import settings from yaml file"""
         with open(file_path, 'r') as file:
             config = yaml.safe_load(file)
@@ -34,4 +35,4 @@ class AppSettings(BaseSettings):
 
 
 path = str(Path(__file__).parent.parent)
-settings = AppSettings.from_yaml(f'{path}/config/config.yaml')
+settings: AppSettings = AppSettings.from_yaml(f'{path}/config/config.yaml')

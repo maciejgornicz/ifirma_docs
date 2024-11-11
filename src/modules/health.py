@@ -1,7 +1,7 @@
 import time
 from threading import Thread
-from .logger import logger
-from .settings import settings
+from modules.logger import logger
+from modules.settings import settings
 from typing import Union
 
 
@@ -13,7 +13,7 @@ class Health():
     """
     _instance = None
 
-    def __new__(cls, *args, **kwargs):
+    def __new__(cls, *args: Union[int, float], **kwargs: Union[int, float]) -> "Health":
         if not isinstance(cls._instance, cls):
             cls._instance = super(Health, cls).__new__(cls)
         return cls._instance
@@ -25,14 +25,14 @@ class Health():
         logger.info("Health initialized")
 
     @property
-    def alive(self):
+    def alive(self) -> bool:
         return self.life.is_alive()
 
-    def heartbeat(self):
+    def heartbeat(self) -> None:
         logger.debug("Heartbeat: BUM")
         self._last_hearbeat = time.time()
 
-    def _start_heart(self):
+    def _start_heart(self) -> None:
         self._last_hearbeat = time.time()
         while True:
             if time.time() - self._last_hearbeat > self._heartbeat_timeout:

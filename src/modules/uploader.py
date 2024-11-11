@@ -2,14 +2,16 @@ from selenium import webdriver
 from threading import Thread
 import os
 import time
-from ifirma_docs.modules import settings, health
+from modules.health import health
+from modules.settings import settings
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
+from pydantic import SecretStr
 
 
 class IFirmaUploader():
     """Class using browser to maintain IFirma connections"""
-    def __init__(self, username, password) -> None:
+    def __init__(self, username: SecretStr, password: SecretStr) -> None:
         self._username = username
         self._password = password
 
@@ -17,7 +19,7 @@ class IFirmaUploader():
         self._chrome_options.add_argument('--ignore-ssl-errors=yes')
         self._chrome_options.add_argument('--ignore-certificate-errors')
 
-    def _upload_file_to_ifirma(self, file: str):
+    def _upload_file_to_ifirma(self, file: str) -> None:
         """Uploads file to IFirma documents"""
         with webdriver.Remote(settings.webdriver.url,
                               options=self._chrome_options) as browser:
@@ -56,7 +58,7 @@ class DirectoryWatcher():
         self._watcher = Thread(target=self._watch)
         self._watcher.start()
 
-    def _get_files(self):
+    def _get_files(self) -> None:
         """Checks if file apear in directory and process it"""
         path = self._directory
         files = os.listdir(path)
@@ -66,12 +68,12 @@ class DirectoryWatcher():
                 self._ifirma_uploader._upload_file_to_ifirma(file=filepath)
                 os.remove(filepath)
 
-    def _watch(self):
+    def _watch(self) -> None:
         """Main watcher loop"""
         while self._running:
             self._get_files()
             health.heartbeat()
             time.sleep(self._check_interval)
 
-    def stop(self):
+    def stop(self) -> None:
         self._running = False

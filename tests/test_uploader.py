@@ -1,5 +1,5 @@
 # test_uploader.py
-from ifirma_docs.models.uploader import IFirmaUploader, DirectoryWatcher, health, settings
+from modules.uploader import IFirmaUploader, DirectoryWatcher, health, settings
 from time import sleep
 import os
 import pytest  # type: ignore
@@ -22,14 +22,14 @@ def watcher():
 
 
 def test_hearbeat(mocker, watcher):
-    mocker.patch('ifirma_docs.models.uploader.health.heartbeat')
+    mocker.patch('modules.uploader.health.heartbeat')
     sleep(watcher._check_interval+0.1)
     watcher.stop()
     health.heartbeat.assert_called()
 
 
 def test_upload_and_delete_finded_file(mocker, watcher):
-    mocker.patch('ifirma_docs.models.uploader.IFirmaUploader._upload_file_to_ifirma')
+    mocker.patch('modules.uploader.IFirmaUploader._upload_file_to_ifirma')
     with open(os.path.join(settings.watched_dir, 'tmp.file'), 'w') as file:
         file.write("tests")
     sleep(watcher._check_interval+0.1)

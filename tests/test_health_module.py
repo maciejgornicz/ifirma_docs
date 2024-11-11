@@ -1,5 +1,5 @@
 # test_health_module.py
-from ifirma_docs.modules.health import Health
+from modules.health import Health
 from time import sleep
 
 

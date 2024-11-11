@@ -11,7 +11,7 @@
             "request": "launch",
             "module": "uvicorn",
             "args": [
-                "ifirma_docs.main:app",
+                "main:app",
                 "--reload",
                 "--host",
                 "0.0.0.0",

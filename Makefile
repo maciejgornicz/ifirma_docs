@@ -54,3 +54,6 @@ prepare-develop:
 
 flake8: prepare-develop
 	flake8 ./src
+
+mypy: prepare-develop
+	mypy ./src
