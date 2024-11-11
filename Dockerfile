@@ -1,6 +1,4 @@
 FROM python:3.11-slim-bookworm
-ARG APP_NAME
-
 WORKDIR /app
 
 RUN apt-get update && \

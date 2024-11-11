@@ -3,36 +3,34 @@ services:
   chrome:
     image: selenium/standalone-chrome
     shm_size: 2gb
-    container_name: chrome
-    ports:
-      - 4444:4444
+    container_name: ${APP}-${STAGE}-chrome
 
   ftp-server:
-    container_name: my-ftp-server
+    container_name: ${APP}-${STAGE}-ftp-server
     user: root
     environment:
       - FTP_PASS=123
       - FTP_USER=user
     image: garethflowers/ftp-server
     ports:
-      - '20-21:20-21/tcp'
-      - '40000-40009:40000-40009/tcp' # Only needed for passive mode
+      - '${FTP_PORTS}:20-21/tcp'
+      - '${FTP_PASSIVE_PORTS}:40000-40009/tcp' # Only needed for passive mode
     volumes:
       - './data:/home/user'
 
-  ifirma_docs:
+  app:
     profiles:
       - all
-    container_name: ifirma_doc
+    container_name: ${APP}-${STAGE}-app
     build:
       context: .
       dockerfile: Dockerfile
     volumes:
       - './data:/data'
     env_file:
-      - ./env/.env.test
+      - ./env/.env.${STAGE}
     ports:
-      - "8080:8080"
+      - "${APP_PORT}:8080"
     healthcheck:
       test: ["CMD", "/app/healthcheck.sh"]
       interval: 10s
