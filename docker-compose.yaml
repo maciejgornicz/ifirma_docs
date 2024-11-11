@@ -9,6 +9,7 @@ services:
 
   ftp-server:
     container_name: my-ftp-server
+    user: root
     environment:
       - FTP_PASS=123
       - FTP_USER=user

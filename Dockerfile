@@ -1,10 +1,17 @@
-FROM python:3.11
+FROM python:3.11-slim-bookworm
+ARG APP_NAME
 
-WORKDIR /usr/src/app
+WORKDIR /app
 
-COPY requirements.txt ./
-RUN pip install --no-cache-dir -r requirements.txt
+RUN apt-get update && \
+    apt-get dist-upgrade --yes && \
+    apt-get install git -y && \
+    python -m pip install -U pip
 
-COPY src .
+COPY requirements.txt requirements.txt
+RUN pip install -r requirements.txt
+COPY src/ .
+RUN mkdir /data
 
-CMD ["uvicorn", "ifirma_docs.main:app", "--host", "0.0.0.0", "--port", "8080"]
+SHELL ["/bin/bash", "-c"]
+ENTRYPOINT ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8080"]

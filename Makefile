@@ -62,3 +62,6 @@ pydocstyle: prepare-develop
 	pydocstyle ./src
 
 analyze: clean prepare-develop flake8 mypy pydocstyle
+
+run:
+	docker-compose --profile all up -d --build
