@@ -42,26 +42,28 @@ unit: clean test_image
 	--env-file env/.env.default \
 	$(DOCKER_TEST_IMAGE)
 
-prepare-develop:
+prepare-env:
 	python3 -m venv venv
 	. ./venv/bin/activate
 	pip3 install --upgrade pip
 	pip3 install --no-cache-dir -r ./tests/unit/requirements.txt
-	docker-compose up -d
 	cp -u env/.env.default env/.env.develop
 	mkdir -p $(ROOTDIR)/data
 	sed -i "s|WATCHED_DIR=/data|WATCHED_DIR=$(ROOTDIR)/data|g" env/.env.develop
 
-flake8: prepare-develop
-	flake8 ./src
+prepare-develop: prepare-env
+	docker-compose up -d
 
-mypy: prepare-develop
-	mypy ./src
+flake8: prepare-env
+	flake8 src
 
-pydocstyle: prepare-develop
-	pydocstyle ./src
+mypy: prepare-env
+	mypy src
 
-analyze: clean prepare-develop flake8 mypy pydocstyle
+pydocstyle: prepare-env
+	pydocstyle src
+
+analyze: clean prepare-env flake8 mypy pydocstyle
 
 test: clean analyze unit
 

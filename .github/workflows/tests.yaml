@@ -1,0 +1,35 @@
+name: Tests
+
+on:
+  push:
+    branches:
+      - develop
+    # tags:
+    #   - 'v[0-9]+.[0-9]+.[0-9]+'
+
+jobs:
+  Analyze:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+            python-version: '3.11'
+      - name: mypy
+        run: make mypy
+      - name: flake8
+        run: make flake8
+      - name: pydocstyle
+        run: make pydocstyle
+
+  Unit_tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: unit
+        run: make unit
