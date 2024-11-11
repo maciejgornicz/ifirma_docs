@@ -11,7 +11,7 @@ RUN apt-get update && \
 COPY tests/unit/requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 COPY src/ .
-COPY tests/test* tests/
+COPY tests/ tests/
 COPY setup.cfg .
 RUN mkdir /data
 

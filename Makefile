@@ -63,5 +63,7 @@ pydocstyle: prepare-develop
 
 analyze: clean prepare-develop flake8 mypy pydocstyle
 
+test: clean analyze unit
+
 run:
 	docker-compose --profile all up -d --build
