@@ -57,3 +57,8 @@ flake8: prepare-develop
 
 mypy: prepare-develop
 	mypy ./src
+
+pydocstyle: prepare-develop
+	pydocstyle ./src
+
+analyze: clean prepare-develop flake8 mypy pydocstyle

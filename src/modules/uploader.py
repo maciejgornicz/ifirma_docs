@@ -1,3 +1,4 @@
+"""Provide ifirma uploader classes."""
 from selenium import webdriver
 from threading import Thread
 import os
@@ -10,8 +11,10 @@ from pydantic import SecretStr
 
 
 class IFirmaUploader():
-    """Class using browser to maintain IFirma connections"""
+    """Class using browser to maintain IFirma connections."""
+
     def __init__(self, username: SecretStr, password: SecretStr) -> None:
+        """Init instance of IFirmaUploader."""
         self._username = username
         self._password = password
 
@@ -20,7 +23,7 @@ class IFirmaUploader():
         self._chrome_options.add_argument('--ignore-certificate-errors')
 
     def _upload_file_to_ifirma(self, file: str) -> None:
-        """Uploads file to IFirma documents"""
+        """Upload file to IFirma documents."""
         with webdriver.Remote(settings.webdriver.url,
                               options=self._chrome_options) as browser:
             browser.get(settings.ifirma.url)
@@ -48,9 +51,11 @@ class IFirmaUploader():
 
 
 class DirectoryWatcher():
-    """Watcher class to watch file apear in directory"""
+    """Watcher class to watch file apear in directory."""
+
     def __init__(self, ifirma_uploader: IFirmaUploader,
                  check_interval: int = 1) -> None:
+        """Init instance of DirectoryWatcher."""
         self._directory = settings.watched_dir
         self._ifirma_uploader = ifirma_uploader
         self._check_interval = check_interval
@@ -59,7 +64,7 @@ class DirectoryWatcher():
         self._watcher.start()
 
     def _get_files(self) -> None:
-        """Checks if file apear in directory and process it"""
+        """Check if file apear in directory and process it."""
         path = self._directory
         files = os.listdir(path)
         if files:
@@ -69,11 +74,12 @@ class DirectoryWatcher():
                 os.remove(filepath)
 
     def _watch(self) -> None:
-        """Main watcher loop"""
+        """Start main watcher loop."""
         while self._running:
             self._get_files()
             health.heartbeat()
             time.sleep(self._check_interval)
 
     def stop(self) -> None:
+        """Stop main loop."""
         self._running = False

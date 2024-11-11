@@ -1,3 +1,4 @@
+"""Main app."""
 from fastapi import FastAPI
 from fastapi.exceptions import HTTPException
 from modules.health import health
@@ -13,6 +14,7 @@ directory_watcher = DirectoryWatcher(ifirma_uploader)
 
 @app.get('/healthcheck')
 def healthcheck() -> dict[str, str]:
+    """Handle healthcheck endpoint."""
     if health.alive:
         return {'message': 'alive'}
     else:

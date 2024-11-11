@@ -1,3 +1,4 @@
+"""Provide and initialize settings."""
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from pydantic import BaseModel, SecretStr
 import yaml
@@ -6,19 +7,22 @@ from typing import Self
 
 
 class IFirmaSettings(BaseModel):
-    """IFirma settings model"""
+    """IFirma settings model."""
+
     url: str
     login: SecretStr
     password: SecretStr
 
 
 class WebdriverSettings(BaseModel):
-    """Webdriver settings model"""
+    """Webdriver settings model."""
+
     url: str
 
 
 class AppSettings(BaseSettings):
-    """Main settings model"""
+    """Main settings model."""
+
     ifirma: IFirmaSettings
     webdriver: WebdriverSettings
 
@@ -28,7 +32,7 @@ class AppSettings(BaseSettings):
 
     @classmethod
     def from_yaml(cls, file_path: str) -> Self:
-        """Class method to import settings from yaml file"""
+        """Import settings from yaml file."""
         with open(file_path, 'r') as file:
             config = yaml.safe_load(file)
         return cls(**config)
